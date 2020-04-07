@@ -7,22 +7,20 @@
     border: 2px solid #555555;
 }
 .keyboard{
+    display: block;
     position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 94%;
-    margin: 3%;
+    bottom: 3%;
+    margin: 0 3%;
     padding: 5px 0;
     background: #555555;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     user-select: none;
     transition: bottom 0.5s;
-    height: 30%;
+    width: 94%;
     border-radius: 10px;
 }
-.keyboard-hidden{
+/*.keyboard-hidden{
     bottom: -100%;
-}
+}*/
 .keyboard_keys{
     text-align: center;
 }
@@ -73,7 +71,23 @@
 }
 
 .keyboard_key-active::after {
+    content: '';
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     background: #08ff00;
+}
+
+.keyboard_key-en::after {
+    content: 'en';
+    float: right;    
+}
+
+.keyboard_key-ru::after {
+    content: 'ru';
 }
 
 .keyboard_key-dark {

@@ -28,7 +28,8 @@ const Keyboard = {
 
     properties: {
         value: "",
-        capsLock: false
+        capsLock: false,
+        language: false
     },
 
     init() {
@@ -60,19 +61,36 @@ const Keyboard = {
     _createKeys() {
         const fragment = document.createDocumentFragment();
         const keyLayout = [
-            "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
+            [["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "backspace", 
             "tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
             "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "enter",
-            "shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?", "shift", "done",
-            "ctrl", "alt", "space", "alt", "ctrl"
+            "lang", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?", "done",
+            "space"], 
+            ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "backspace", 
+            "tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "{", "}", "|",
+            "caps", "A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', "enter",
+            "lang", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", "done",
+            "space"]],
+            [["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "backspace", 
+            "tab", "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "|",
+            "caps", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", 'э', "enter",
+            "lang", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", ".", "done",
+            "space"],
+            ["Ё", "!", '"', "№", ";", "%", ":", "?", "*", "(", ")", "_", "+", "backspace", 
+            "tab", "Й", "Ц", "У", "К", "Е", "Н", "Г", "Ш", "Щ", "З", "Х", "Ъ", "/",
+            "caps", "Ф", "Ы", "В", "А", "П", "Р", "О", "Л", "Д", "Ж", 'Э', "enter",
+            "lang", "Я", "Ч", "С", "М", "И", "Т", "Ь", "Б", "Ю", ",", "done",
+            "space"]]
         ];
-
         // Creates HTML for an icon
         const createIconHTML = (icon_name) => {
             return `<i class="material-icons">${icon_name}</i>`;
         };
 
-        keyLayout.forEach(key => {
+        let x = this.properties.language ? 1 : 0;
+        let y = this.properties.capsLock ? 1 : 0;
+
+        keyLayout[x][y].forEach(key => {
             const keyElement = document.createElement("button");
             const insertLineBreak = ["backspace", "\\", "enter", "done"].indexOf(key) !== -1;
 
@@ -93,12 +111,11 @@ const Keyboard = {
                     break;
 
                 case "caps":
-                    keyElement.classList.add("keyboard_key-wide", "keyboard_key-activatable");
+                    keyElement.classList.add("keyboard_key-wide", this.properties.capsLock ? "keyboard_key-active" : "keyboard_key-activatable");
                     keyElement.innerHTML = createIconHTML("keyboard_capslock");
 
                     keyElement.addEventListener("click", () => {
                         this._toggleCapsLock();
-                        keyElement.classList.toggle("keyboard_key-active", this.properties.capsLock);
                     });
 
                     break;
@@ -147,11 +164,21 @@ const Keyboard = {
 
                     break;
 
+                case "lang":
+                    keyElement.classList.add("keyboard_key-wide", this.properties.language ? "keyboard_key-ru" : "keyboard_key-en");
+                    keyElement.innerHTML = createIconHTML("language");
+
+                    keyElement.addEventListener("click", () => {
+                        this._toggleLanguage();
+                    });
+
+                    break;
+
                 default:
                     keyElement.textContent = key.toLowerCase();
 
                     keyElement.addEventListener("click", () => {
-                        this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
+                        this.properties.value += key;
                         this._triggerEvent("oninput");
                     });
 
@@ -174,8 +201,14 @@ const Keyboard = {
         }
     },
 
+    _toggleLanguage() {
+        this.properties.language = !this.properties.language;
+        this.init();
+    },
+
     _toggleCapsLock() {
         this.properties.capsLock = !this.properties.capsLock;
+        this.init();
 
         for (const key of this.elements.keys) {
             if (key.childElementCount === 0) {
