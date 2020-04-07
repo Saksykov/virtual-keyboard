@@ -175,7 +175,7 @@ const Keyboard = {
                     break;
 
                 default:
-                    keyElement.textContent = key.toLowerCase();
+                    keyElement.textContent = key;
 
                     keyElement.addEventListener("click", () => {
                         this.properties.value += key;
@@ -209,12 +209,6 @@ const Keyboard = {
     _toggleCapsLock() {
         this.properties.capsLock = !this.properties.capsLock;
         this.init();
-
-        for (const key of this.elements.keys) {
-            if (key.childElementCount === 0) {
-                key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
-            }
-        }
     },
 
     open(initialValue, oninput, onclose) {
@@ -224,12 +218,12 @@ const Keyboard = {
         this.elements.main.classList.remove("keyboard-hidden");
     },
 
-    close() {
-        this.properties.value = "";
-        this.eventHandlers.oninput = oninput;
-        this.eventHandlers.onclose = onclose;
-        this.elements.main.classList.add("keyboard-hidden");
-    }
+    //close() {
+    //    this.properties.value = "";
+    //    this.eventHandlers.oninput = oninput;
+    //    this.eventHandlers.onclose = onclose;
+    //    this.elements.main.classList.add("keyboard-hidden");
+    //}
 };
 
 window.addEventListener("DOMContentLoaded", function () {
