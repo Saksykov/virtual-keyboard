@@ -52,7 +52,7 @@ const CODE = ["Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Di
       }
     });
   }
-  keybord.insertAdjacentHTML("beforebegin", "<p class = \"description\">Switch Language Shift + Alt</p>");
+  keybord.insertAdjacentHTML("beforebegin", "<p class = \"description\">Switch Language Alt + Shift</p>");
   keybord.insertAdjacentHTML("afterend", "<p class = \"description\">OS Windows</p>");
 }());
 
