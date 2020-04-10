@@ -52,8 +52,8 @@ const CODE = ["Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Di
       }
     });
   }
-  keybord.insertAdjacentHTML("beforebegin", "<p class = \"description\">Switch Language Ctrl + Alt</p>");
-  keybord.insertAdjacentHTML("afterend", "<p class = \"description\">Made with Windows</p>");
+  keybord.insertAdjacentHTML("beforebegin", "<p class = \"description\">Switch Language Shift + Alt</p>");
+  keybord.insertAdjacentHTML("afterend", "<p class = \"description\">OS Windows</p>");
 }());
 
 
@@ -132,8 +132,8 @@ document.addEventListener("keydown", (event) => {
   if (event) {
     CODE.forEach((item) => { item !== event.code ? null : document.querySelector(`[code="${event.code}"]`).classList.add("-focus"); });
   }
-  if (event.code === "AltLeft") {
-    if (event.ctrlKey) {
+  if (event.code === "ShiftLeft") {
+    if (event.altKey) {
       if (localStorage.lang === JSON.stringify(RUSSIAN_KEYS)) {
         changeSymbols(ENGLISH_KEYS);
         document.querySelector(".caps").style.color = "";
